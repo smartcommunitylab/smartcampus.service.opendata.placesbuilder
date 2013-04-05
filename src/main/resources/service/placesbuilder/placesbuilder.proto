@@ -1,0 +1,13 @@
+package smartcampus.service.placesbuilder.data.message;
+
+import "core.proto";
+
+message Place {
+	required string name = 1;
+	required string street = 2;
+	required string number = 3;
+	optional double latitude = 4;
+	optional double longitude = 5;
+	optional string category = 6;
+	optional it.sayservice.platform.core.message.POI poi = 7;
+}
