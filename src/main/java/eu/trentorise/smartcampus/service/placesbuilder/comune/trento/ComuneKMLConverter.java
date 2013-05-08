@@ -52,7 +52,7 @@ public class ComuneKMLConverter {
 
 			StringBuilder sb = new StringBuilder();
 			for (Place place : places) {
-				String csv = String.format("%s@serviceId;smart;;%s;%s;WGS84;ITA;Italy;TN;Trento;38100;%s %s;en;Food\n", WordUtils.capitalize(place.getName().toLowerCase()), place.getLatitude(), place.getLongitude(), WordUtils.capitalize(place.getStreet().toLowerCase()), place.getNumber());
+				String csv = String.format("%s@serviceId;smart;;%s;%s;WGS84;ITA;Italy;TN;%s;38100;%s %s;en;Food\n", WordUtils.capitalize(place.getName().toLowerCase()), place.getLatitude(), place.getLongitude(), place.getTown(), WordUtils.capitalize(place.getStreet().toLowerCase()), place.getNumber());
 				sb.append(csv);
 			}
 
@@ -106,6 +106,7 @@ public class ComuneKMLConverter {
 				builder.setLatitude(Double.parseDouble(lonlat[1]));
 			}
 
+			builder.setTown("Trento");
 			result.add(builder.build());
 		}
 
