@@ -10,7 +10,7 @@
 
 	<script outputVar="places" writeMethod="addAll" writeAction="append">
 		<className>eu.trentorise.smartcampus.service.placesbuilder.comune.trento.ComuneKMLConverter</className>
-		<method>process</method>
+		<method>readEserciziPubblici</method>
 		<variables>
 		</variables>
 	</script>
