@@ -48,7 +48,7 @@ public class ComuneKMLConverter {
 		List<Place> places = null;
 		while (entries.hasMoreElements()) {
 			ZipEntry entry = entries.nextElement();
-			places = parseXML(zf.getInputStream(entry), serviceId);
+			places = parseXML(zf.getInputStream(entry));
 
 			StringBuilder sb = new StringBuilder();
 			for (Place place : places) {
@@ -72,7 +72,7 @@ public class ComuneKMLConverter {
 		return f;
 	}
 
-	private static List<Place> parseXML(InputStream is, String serviceId) throws Exception {
+	private static List<Place> parseXML(InputStream is) throws Exception {
 		List<Place> result = new ArrayList<Place>();
 
 		Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
