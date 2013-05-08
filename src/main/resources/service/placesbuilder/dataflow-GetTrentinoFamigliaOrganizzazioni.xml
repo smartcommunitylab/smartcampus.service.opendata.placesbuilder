@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataflow xmlns="http://www.example.org/mml-schema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/mml-schema mml-schema.xsd ">
+
+	<variable name="places" type="java.util.Collection">
+		<body>new java.util.ArrayList();</body>
+	</variable>
+	
+	<variable name="placesList" type="java.util.List&lt;Message&gt;" />
+	
+
+	<script outputVar="places" writeMethod="addAll" writeAction="append">
+		<className>eu.trentorise.smartcampus.service.placesbuilder.trentinofamiglia.TrentinoFamigliaConverter</className>
+		<method>readOrganizzazioni</method>
+		<variables>
+		</variables>
+	</script>
+
+	<foreach name="fe1" item="place" itemClass="smartcampus.service.placesbuilder.data.message.Placesbuilder.Place" aggregateVariable="placesList" outputVar="output" writeAction="append" writeMethod="addAll">
+		<items>places</items>
+		
+		<geolocalize outputVar="placesList" inputVar="place" writeAction="append" attribute="poi" onError="continue">
+        	<poiName>place.getName()</poiName>
+      	</geolocalize>				
+		
+		
+	</foreach>
+
+</dataflow>

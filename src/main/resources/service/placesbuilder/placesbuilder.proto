@@ -6,9 +6,10 @@ message Place {
 	required string name = 1;
 	optional string street = 2;
 	required string town = 3;
-	optional string number = 4;
-	optional double latitude = 5;
-	optional double longitude = 6;
-	optional string category = 7;
-	optional it.sayservice.platform.core.message.POI poi = 8;
+	optional string province = 4;
+	optional string number = 5;
+	optional double latitude = 6;
+	optional double longitude = 7;
+	optional string category = 8;
+	optional it.sayservice.platform.core.message.POI poi = 9;
 }

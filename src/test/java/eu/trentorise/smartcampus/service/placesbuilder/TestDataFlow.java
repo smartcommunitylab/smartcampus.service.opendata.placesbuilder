@@ -15,6 +15,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import smartcampus.service.placesbuilder.data.message.Placesbuilder.Place;
 import smartcampus.service.placesbuilder.impl.GetComuneTrentoPubbliciEserciziDataFlow;
+import smartcampus.service.placesbuilder.impl.GetTrentinoFamigliaOrganizzazioniDataFlow;
 
 public class TestDataFlow extends TestCase {
 
@@ -27,9 +28,11 @@ public class TestDataFlow extends TestCase {
 			
 			DataFlowTestHelper helper = new DataFlowTestHelper();
 			Map<String, Object> out = helper.executeDataFlow("smartcampus.service.placesbuilder", "GetComuneTrentoPubbliciEsercizi", new GetComuneTrentoPubbliciEserciziDataFlow(), pars);
-			for (Place place : (List<Place>)out.get("data")) {
-				System.out.println(place.getPoi().getPoiId());
-			}
+//			for (Place place : (List<Place>)out.get("data")) {
+//				System.out.println(place.getPoi().getPoiId());
+//			}
+			
+			out = helper.executeDataFlow("smartcampus.service.placesbuilder", "GetTrentinoFamigliaOrganizzazioni", new GetTrentinoFamigliaOrganizzazioniDataFlow(), pars);
 			System.out.println(((List<Place>)out.get("data")).size());
 		} catch (Exception e) {
 			e.printStackTrace();

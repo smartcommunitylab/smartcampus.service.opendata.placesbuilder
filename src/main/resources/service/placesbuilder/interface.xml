@@ -5,11 +5,19 @@
 		<operation name="GetComuneTrentoPubbliciEsercizi">
 			<output type="smartcampus.service.placesbuilder.data.message.Placesbuilder$Place" repeated="true"/>
 		</operation>
+		<operation name="GetTrentinoFamigliaOrganizzazioni">
+			<output type="smartcampus.service.placesbuilder.data.message.Placesbuilder$Place" repeated="true"/>
+		</operation>		
 				
 	</interface>
 
 	<implementation package="smartcampus.service.placesbuilder">
 		<operationImpl name="GetComuneTrentoPubbliciEsercizi"/>
 	</implementation>
+	<implementation package="smartcampus.service.placesbuilder">
+		<operationImpl name="GetTrentinoFamigliaOrganizzazioni"/>
+	</implementation>	
+
+
 
 </service-definition>
