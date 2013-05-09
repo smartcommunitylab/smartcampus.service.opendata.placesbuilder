@@ -50,7 +50,6 @@ public class TrentinoFamigliaConverter {
 		String line = null;
 		while ((line = br.readLine()) != null) {
 			String words[] = line.split(";");
-			System.out.println(line);
 			try {
 			Integer.parseInt(words[0]);
 			} catch (NumberFormatException e) {

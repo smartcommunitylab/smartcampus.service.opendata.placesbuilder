@@ -13,12 +13,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.0.1</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 			<version>2.6</version>
@@ -60,10 +54,10 @@
 				<configuration>
 					<instructions>
 						<Include-Resource>{maven-resources}</Include-Resource>
-						<Export-Package>service.placesbuilder.*,smartcampus.service.placesbuilder.*</Export-Package>
+						<Export-Package>smartcampus.service.placesbuilder.*,eu.trentorise.smartcampus.service.placesbuilder.*</Export-Package>
 						<Private-Package>!*</Private-Package>
 						<DynamicImport-Package>*</DynamicImport-Package>
-						<Import-Package>org.apache.log4j.*,</Import-Package>
+						<Import-Package>org.apache.log4j.*,*</Import-Package>
 					</instructions>
 				</configuration>
 			</plugin>
@@ -91,6 +85,22 @@
 										<runnableAfterDelay>true</runnableAfterDelay>
 									</statusParameters>
 								</method>
+								<method>
+									<methodName>GetTrentinoFamigliaOrganizzazioni</methodName>
+									<statusParameters>
+										<storable>true</storable>
+										<automaticRefresh>true</automaticRefresh>
+										<delay>#{1000L*15}</delay>
+										<period>#{1000L*60*60*24*7}</period>
+										<periodOnDefault>#{1000L*60*60*24*7}</periodOnDefault>
+										<periodOnFailure>#{1000L*60*60*24*7}</periodOnFailure>
+										<cacheValidityPeriod>#{1000L*60*60*24*15}</cacheValidityPeriod>
+										<validityPeriod>#{1000L*60*60*24*30}</validityPeriod>
+										<serviceBlocked>false</serviceBlocked>
+										<dataFlowInvokable>true</dataFlowInvokable>
+										<runnableAfterDelay>true</runnableAfterDelay>
+									</statusParameters>
+								</method>								
 							</methods>
 						</service>
 					</services>

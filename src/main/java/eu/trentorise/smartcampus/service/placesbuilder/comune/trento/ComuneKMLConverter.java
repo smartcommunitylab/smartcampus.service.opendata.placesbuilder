@@ -1,5 +1,6 @@
 package eu.trentorise.smartcampus.service.placesbuilder.comune.trento;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -14,7 +15,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.WordUtils;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
@@ -68,7 +68,20 @@ public class ComuneKMLConverter {
 	private static File download(String address) throws Exception {
 		String tmp = System.getProperty("java.io.tmpdir");
 		File f = new File(tmp, "tmpzip.zip");
-		FileUtils.copyURLToFile(new URL(address), f);
+//		FileUtils.copyURLToFile(new URL(address), f);
+		
+		FileOutputStream fos = new FileOutputStream(f);
+		
+		BufferedInputStream in = new BufferedInputStream(new URL(address).openStream());
+	    byte data[] = new byte[1024];
+	    int count;
+	    while((count = in.read(data,0,1024)) != -1)
+	    {
+	        fos.write(data, 0, count);
+	    }		
+	    fos.close();
+		
+		
 		return f;
 	}
 

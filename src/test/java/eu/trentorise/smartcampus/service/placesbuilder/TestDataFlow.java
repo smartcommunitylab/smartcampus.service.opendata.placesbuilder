@@ -31,6 +31,7 @@ public class TestDataFlow extends TestCase {
 //			for (Place place : (List<Place>)out.get("data")) {
 //				System.out.println(place.getPoi().getPoiId());
 //			}
+			System.out.println(((List<Place>)out.get("data")).size());
 			
 			out = helper.executeDataFlow("smartcampus.service.placesbuilder", "GetTrentinoFamigliaOrganizzazioni", new GetTrentinoFamigliaOrganizzazioniDataFlow(), pars);
 			System.out.println(((List<Place>)out.get("data")).size());
