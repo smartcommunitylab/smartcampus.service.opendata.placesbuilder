@@ -5,14 +5,26 @@
 		<body>new java.util.ArrayList();</body>
 	</variable>
 	
+	<variable name="organizzazioni" type="java.lang.String"/>
 	<variable name="placesList" type="java.util.List&lt;Message&gt;" />
 	
+	<httpConnector name="connector" method="GET" encoding="UTF-8"/>
+	
+	<connect name="c1" connector="connector" outputVar="organizzazioni" transformer="string">
+		<properties>
+			<property name="url">
+				<value>"http://dati.trentino.it/it/storage/f/2013-05-16T105357/Registro_organizzazioni_certificate_Audit.csv"</value>
+			</property>
+		</properties>
+	</connect>		
+
 
 	<script outputVar="places" writeMethod="addAll" writeAction="append">
 		<className>eu.trentorise.smartcampus.service.placesbuilder.trentinofamiglia.TrentinoFamigliaConverter</className>
 		<method>readOrganizzazioni</method>
 		<variables>
-		</variables>
+			<value>organizzazioni</value>
+		</variables>	
 	</script>
 
 	<foreach name="fe1" item="place" itemClass="smartcampus.service.placesbuilder.data.message.Placesbuilder.Place" aggregateVariable="placesList" outputVar="output" writeAction="append" writeMethod="addAll">

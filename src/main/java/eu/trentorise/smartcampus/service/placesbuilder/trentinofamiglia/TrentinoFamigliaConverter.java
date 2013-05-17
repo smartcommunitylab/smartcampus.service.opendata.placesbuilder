@@ -2,8 +2,7 @@ package eu.trentorise.smartcampus.service.placesbuilder.trentinofamiglia;
 
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,78 +14,94 @@ import eu.trentorise.smartcampus.service.placesbuilder.comune.trento.ComuneKMLCo
 
 public class TrentinoFamigliaConverter {
 
-	private final static String INPUT = "service/placesbuilder/registro_organizzazioni_certificate_familyaudit.csv";
-
 	private static Logger log = Logger.getLogger(ComuneKMLConverter.class);
 
-	public static List<Place> readOrganizzazioni() throws Exception {
-		String output = System.getProperty("java.io.tmpdir") + "/trentino_famiglia_organizzazioni.csv";
-		return readOrganizzazioni(INPUT, output, "smartcampus.service.placesbuilder");
+	public static List<Place> readOrganizzazioni(String s) throws Exception {
+		String output = System.getProperty("java.io.tmpdir")
+				+ "/trentino_famiglia_organizzazioni.csv";
+		return readOrganizzazioni(s, output,
+				"smartcampus.service.placesbuilder");
 	}
 
-	private static List<Place> readOrganizzazioni(String input, String output, String serviceId) throws Exception {
-		List<Place> places = parseCSV(input);
-		
+	private static List<Place> readOrganizzazioni(String s, String output,
+			String serviceId) throws Exception {
+		List<Place> places = parseCSV(s);
+
 		StringBuilder sb = new StringBuilder();
 		for (Place place : places) {
-			String csv = String.format("%s@serviceId;smart;;%s;%s;WGS84;ITA;Italy;%s;%s;;%s %s;en;Organization\n", WordUtils.capitalize(place.getName().toLowerCase()), place.getLatitude(), place.getLongitude(), place.getProvince(), place.getTown(), WordUtils.capitalize(place.getStreet().toLowerCase()), place.getNumber());
+			String csv = String
+					.format("%s@serviceId;smart;;%s;%s;WGS84;ITA;Italy;%s;%s;;%s %s;en;Organization\n",
+							WordUtils.capitalize(place.getName().toLowerCase()),
+							place.getLatitude(), place.getLongitude(), place
+									.getProvince(), place.getTown(),
+							WordUtils.capitalize(place.getStreet()
+									.toLowerCase()), place.getNumber());
 			sb.append(csv.replace(" ;", ";"));
 		}
 
 		log.info("Writing CSV to: " + output);
 		FileOutputStream fos = new FileOutputStream(output);
-		fos.write(sb.toString().getBytes());		
-		
+		fos.write(sb.toString().getBytes());
+
 		return places;
 	}
-	
-	private static List<Place> parseCSV(String input) throws Exception {
+
+	private static List<Place> parseCSV(String s) throws Exception {
 		List<Place> result = new ArrayList<Place>();
 		try {
-		InputStream rs = Thread.currentThread().getContextClassLoader().getResourceAsStream(input);
-		InputStreamReader isr = new InputStreamReader(rs);
-		BufferedReader br = new BufferedReader(isr);
-		
-		String line = null;
-		while ((line = br.readLine()) != null) {
-			String words[] = line.split(";");
-			try {
-			Integer.parseInt(words[0]);
-			} catch (NumberFormatException e) {
-				continue;
+			BufferedReader br = new BufferedReader(new StringReader(s));
+			String line = null;
+			boolean first = true;
+			while ((line = br.readLine()) != null) {
+				if (first) {
+					first = false;
+					continue;
+				}
+				String words[] = line.replace("\"", "").split(";");
+
+				Place.Builder builder = Place.newBuilder();
+				builder.setName(removeSpaces(words[1]));
+				
+				String address[] = words[3].split(" ");
+				String street = null;
+				String number = address[address.length - 1];
+				String n = null;
+				
+				if (!number.replaceAll("[\\d]", "").equals(number)) {
+					n = number;
+				}
+				
+				if (n != null) {
+					street = words[3].replace(number, "").trim();
+					builder.setNumber(number);					
+				} else {
+					street = words[3];
+				}
+				builder.setStreet(removeSpaces(street));
+				
+				builder.setTown(removeSpaces(words[4]));
+				builder.setProvince(removeSpaces(words[5]));
+				builder.setLatitude(Double
+						.parseDouble(transformLatLong(words[6])));
+				builder.setLongitude(Double
+						.parseDouble(transformLatLong(words[7])));
+				result.add(builder.build());
 			}
-			Place.Builder builder = Place.newBuilder();
-			builder.setName(removeSpaces(words[1]));
-			String address[] = words[3].split(",");
-			if (address.length == 2) {
-				builder.setStreet(removeSpaces(address[0]));
-				builder.setNumber(removeSpaces(address[1]));
-			} else if (address.length == 1) {
-				builder.setStreet(removeSpaces(address[0]));
-			}
-			builder.setTown(removeSpaces(words[4]));
-			builder.setProvince(removeSpaces(words[5]));
-			builder.setLatitude(Double.parseDouble(transformLatLong(words[6])));
-			builder.setLongitude(Double.parseDouble(transformLatLong(words[7])));
-			
-			result.add(builder.build());
-		}		
-		
-		return result;
+			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
-		
 	}
-	
+
 	private static String removeSpaces(String s) {
 		return s.replaceAll("[\\s]+", " ").trim();
 	}
-	
+
 	private static String transformLatLong(String ll) {
-		String s = ll.replaceFirst("\\.", ",").replaceFirst("\\.", "").replaceAll(",",".");
+		String s = ll.replaceFirst("\\.", ",").replaceFirst("\\.", "")
+				.replaceAll(",", ".");
 		return s;
 	}
-	
+
 }

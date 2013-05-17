@@ -21,20 +21,30 @@ public class TestDataFlow extends TestCase {
 
 	public void test() {
 		try {
-			ApplicationContext context = new ClassPathXmlApplicationContext("test-context.xml");
-			AppConfig ac = (AppConfig)context.getBean("appConfig");
-			
+			ApplicationContext context = new ClassPathXmlApplicationContext(
+					"test-context.xml");
+			AppConfig ac = (AppConfig) context.getBean("appConfig");
+
 			Map<String, Object> pars = new HashMap<String, Object>();
-			
+
 			DataFlowTestHelper helper = new DataFlowTestHelper();
-			Map<String, Object> out = helper.executeDataFlow("smartcampus.service.placesbuilder", "GetComuneTrentoPubbliciEsercizi", new GetComuneTrentoPubbliciEserciziDataFlow(), pars);
-//			for (Place place : (List<Place>)out.get("data")) {
-//				System.out.println(place.getPoi().getPoiId());
-//			}
-			System.out.println(((List<Place>)out.get("data")).size());
-			
-			out = helper.executeDataFlow("smartcampus.service.placesbuilder", "GetTrentinoFamigliaOrganizzazioni", new GetTrentinoFamigliaOrganizzazioniDataFlow(), pars);
-			System.out.println(((List<Place>)out.get("data")).size());
+			// Map<String, Object> out1 =
+			// helper.executeDataFlow("smartcampus.service.placesbuilder",
+			// "GetComuneTrentoPubbliciEsercizi", new
+			// GetComuneTrentoPubbliciEserciziDataFlow(), pars);
+			// for (Place place : (List<Place>)out1.get("data")) {
+			// System.out.println(place.getPoi().getPoiId());
+			// }
+			// System.out.println(((List<Place>)out1.get("data")).size());
+
+			Map<String, Object> out2 = helper.executeDataFlow(
+					"smartcampus.service.placesbuilder",
+					"GetTrentinoFamigliaOrganizzazioni",
+					new GetTrentinoFamigliaOrganizzazioniDataFlow(), pars);
+			System.out.println(((List<Place>) out2.get("data")).size());
+			for (Place place : (List<Place>) out2.get("data")) {
+//				System.out.println(place.getName());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
