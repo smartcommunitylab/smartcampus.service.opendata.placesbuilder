@@ -30,7 +30,7 @@ public class ComuneKMLConverter {
 	private static Logger log = Logger.getLogger(ComuneKMLConverter.class);
 
 	public static List<Place> readEserciziPubblici() throws Exception {
-		String output = System.getProperty("java.io.tmpdir") + "/civici_pubblici_esercizi.csv";
+		String output = System.getProperty("java.io.tmpdir") + "civici_pubblici_esercizi.csv";
 		return readEserciziPubblici(INPUT, output, "smartcampus.service.placesbuilder");
 	}
 

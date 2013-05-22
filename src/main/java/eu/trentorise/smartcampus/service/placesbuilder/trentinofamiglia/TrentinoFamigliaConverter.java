@@ -18,7 +18,7 @@ public class TrentinoFamigliaConverter {
 
 	public static List<Place> readOrganizzazioni(String s) throws Exception {
 		String output = System.getProperty("java.io.tmpdir")
-				+ "/trentino_famiglia_organizzazioni.csv";
+				+ "trentino_famiglia_organizzazioni.csv";
 		return readOrganizzazioni(s, output,
 				"smartcampus.service.placesbuilder");
 	}
@@ -30,7 +30,7 @@ public class TrentinoFamigliaConverter {
 		StringBuilder sb = new StringBuilder();
 		for (Place place : places) {
 			String csv = String
-					.format("%s@serviceId;smart;;%s;%s;WGS84;ITA;Italy;%s;%s;;%s %s;en;Organization\n",
+					.format("%s@smartcampus.service.trentinofamiglia;smart;;%s;%s;0;WGS84;ITA;Italy;%s;%s;;%s %s;en;Trentino Famiglia Organization\n",
 							WordUtils.capitalize(place.getName().toLowerCase()),
 							place.getLatitude(), place.getLongitude(), place
 									.getProvince(), place.getTown(),

@@ -28,14 +28,14 @@ public class TestDataFlow extends TestCase {
 			Map<String, Object> pars = new HashMap<String, Object>();
 
 			DataFlowTestHelper helper = new DataFlowTestHelper();
-			// Map<String, Object> out1 =
-			// helper.executeDataFlow("smartcampus.service.placesbuilder",
-			// "GetComuneTrentoPubbliciEsercizi", new
-			// GetComuneTrentoPubbliciEserciziDataFlow(), pars);
-			// for (Place place : (List<Place>)out1.get("data")) {
-			// System.out.println(place.getPoi().getPoiId());
-			// }
-			// System.out.println(((List<Place>)out1.get("data")).size());
+			Map<String, Object> out1 = helper.executeDataFlow(
+					"smartcampus.service.placesbuilder",
+					"GetComuneTrentoPubbliciEsercizi",
+					new GetComuneTrentoPubbliciEserciziDataFlow(), pars);
+			for (Place place : (List<Place>) out1.get("data")) {
+				System.out.println(place.getPoi().getPoiId());
+			}
+			System.out.println(((List<Place>) out1.get("data")).size());
 
 			Map<String, Object> out2 = helper.executeDataFlow(
 					"smartcampus.service.placesbuilder",
